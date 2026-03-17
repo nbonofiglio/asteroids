@@ -24,13 +24,12 @@ def main():
         for event in pygame.event.get():
             pass
         screen.fill("black")
-        print(player_sprite.position, player_sprite.radius, player_sprite.rotation)
-        triangle_sprite = player_sprite.draw(screen)
-        print(triangle_sprite)
+        player_sprite.update(dt)
+        player_sprite.draw(screen)
         pygame.display.flip()
 
-        # lock sceen to 60 FPS
         dt = clock.tick(60) / 1000
+        
         
 
 
