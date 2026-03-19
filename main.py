@@ -12,11 +12,18 @@ def main():
     # initializing game, window, and player sprite
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    player_sprite = player.Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
     
-    # setting frames-per-second cap along with .tick() below
+    # setting frames-per-second cap along with .tick() in game loop
     clock = pygame.time.Clock()
     dt = 0
+
+    # grouping objects to make them easier to interact with
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    # add player object to groups and calculate starting location
+    player.Player.containers = (updatable, drawable)
+    player_sprite = player.Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
     # update game state for each frame
     while True:
@@ -24,14 +31,13 @@ def main():
         for event in pygame.event.get():
             pass
         screen.fill("black")
-        player_sprite.update(dt)
-        player_sprite.draw(screen)
+        updatable.update(dt)
+        for object in drawable:
+            object.draw(screen)
         pygame.display.flip()
 
+        # syncs object movement rate with frame rate
         dt = clock.tick(60) / 1000
-        
-        
-
 
 if __name__ == "__main__":
     main()
